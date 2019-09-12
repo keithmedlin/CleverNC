@@ -5,10 +5,10 @@ from PowerSchool export files, transformed into the proper csv files by this scr
 to ensure archival access to older files in case of data issues."""
 
 __author__ = "Keith Medlin"
-__copyright__ = "Copyright 2018, Chatham County Schools"
-__credits__ = ["Keith Medlin"]
-__license__ = "All Rights Reserved"
-__version__ = "1.1"
+__copyright__ = "Chahtam County Schools 2019"
+__credits__ = ["Keith Medlin", "Chatham County Schools"]
+__license__ = "GNU GENERAL PUBLIC LICENSE 3.o"
+__version__ = "1.1.1"
 __maintainer__ = "Keith Medlin"
 __email__ = "kmedlin@chatham.k12.nc.us"
 __status__ = "Production"
