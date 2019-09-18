@@ -11,11 +11,10 @@ Be sure to install dependencies that will be needed as well:
 * configparser
 
 ## Import Files
-There are 4 required files to run this script:
-* Sections & Enrollments from PowerSchool
-* All Students in the grade levels you are supporting in Clever
-* The Student password file, linking students between this file and the All Students file via their student id number.
-* All Teachers
+There are 3 required files to run this script:
+* PowerSchool - Sections & Enrollments
+* PowerSchool - All Students
+* PowerSchool - All Teachers
 
 ### Sections & Enrollments
 In PowerSchool, you'll need to create an Export Template through the Data Export Manager that pulls the following columns from the "Student Information" Category and the Export From "Student: Course Data" -
@@ -41,21 +40,11 @@ In PowerSchool, you'll need to create an Export Template through the Data Export
 * Last_Name
 * Email
 * SchoolID
+* Grade_Level
 
-This file is used to help enroll students in courses and the number found in the Student_Number field is used to match the password found in the Student Password File. 
+This file is used to help enroll students in courses and the number found in the Student_Number field is used to match the account with the enrollment.
 
-We typically do not filter this file, but your mileage may vary.
-
-### Student Password File
-In whatever password management solution you use, you'll need to export a file that contains the following columns for every student that will be active in Clever - 
-* Last Name as "Surname"
-* First Name as "GivenName"
-* Password as "AccountPassword"
-* Email as "EmailAddress"
-* Student ID Number as "EmployeeNumber"
-* Grade as "GradeLevel"
-
-These fields are used to validate data in the script and to ensure the right student is getting the right password.
+This file does not accept a filter in PowerSchool.
 
 ### Teachers_Export File
 In PowerSchool, you'll need to create an Export Template through the Data Export Manager that pulls the following columns from the "Staff Information" Category and the Export From "Teachers" -

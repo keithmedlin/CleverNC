@@ -72,4 +72,8 @@ gen
 config.ini
 schooladmins.json
 schools.json
+/uploads
+/imports
+.idea/vcs.xml
+Teachers_Export.csv-dl.log
 .DS_Store

@@ -8,7 +8,7 @@ __author__ = "Keith Medlin"
 __copyright__ = "Chahtam County Schools 2019"
 __credits__ = ["Keith Medlin", "Chatham County Schools"]
 __license__ = "GNU GENERAL PUBLIC LICENSE 3.o"
-__version__ = "1.1.1"
+__version__ = "1.2"
 __maintainer__ = "Keith Medlin"
 __email__ = "kmedlin@chatham.k12.nc.us"
 __status__ = "Production"
@@ -97,10 +97,7 @@ importFiles = {
                     config['homeroomsfile']['password']],
     "studentsFile": [config['studentsfile']['host'], int(config['studentsfile']['port']), config['studentsfile']['remote_dir'], 
                     config['studentsfile']['local_dir'], config['studentsfile']['filename'], config['studentsfile']['username'], 
-                    config['studentsfile']['password']],
-    "studentsPass": [config['studentspass']['host'], int(config['studentspass']['port']), config['studentspass']['remote_dir'], 
-                    config['studentspass']['local_dir'], config['studentspass']['filename'], config['studentspass']['username'], 
-                    config['studentspass']['password']]
+                    config['studentsfile']['password']]
 }
 
 uploadFiles = ["teachers.csv", "students.csv", "admins.csv", "schools.csv", "sections.csv",
@@ -158,10 +155,6 @@ for row in readSection:
     if key in sectionList:
         # duplicate row handling logic here if we need it later...
         pass
-    #if re.match(r'^99329', key):
-    #    pass
-    #else:
-    #    continue
     sectionList[key] = row
 
 # Read the Student Export from PowerSchool into a dictionary.
@@ -174,17 +167,6 @@ for row in readStudent:
         # duplicate row handling logic here if we need it later...
         pass
     studentList[key] = row
-
-# Read the Student Passwords Export from AD into a dictionary.
-readPass = csv.DictReader(open('imports/'+importFiles["studentsPass"][4]))
-studentPass = {}
-for row in readPass:
-    # key = row.pop('EmailAddress')
-    key = row.pop('EmployeeNumber')
-    if key in studentPass:
-        # duplicate row handling logic here if we need it later...
-        pass
-    studentPass[key] = row
 
 # Write the teachers.csv file
 with open('teachers.csv', 'w', newline='') as f:
@@ -212,12 +194,11 @@ f.close()
 with open('students.csv', 'w', newline='') as f:
     w = csv.writer(f)
     # Write the header
-    w.writerow(['School_id', 'Last_name', 'First_name', 'Password', 'Username',
+    w.writerow(['School_id', 'Last_name', 'First_name', 'Username',
                 'Student_id', 'Student_email', 'Grade'])
     for key, value in studentList.items():
         lookup = str(value['SchoolID'])
-        currentStudent = studentPass.get(str(key))
-        # currentStudent = studentPass.get(str(value['Student_Number']))
+        currentStudent = key
         # Ensure that the student has both a valid school and e-mail address before proceeding
         if lookup and currentStudent:
             if search(schools, lookup, 0):
@@ -225,14 +206,11 @@ with open('students.csv', 'w', newline='') as f:
                 schoolId = search(schools, lookup, 0)
                 # Set the student password and student grade from the current student's dictionary
                 # entry
-                studentPassword = currentStudent["AccountPassword"]
-                studentGrade = currentStudent["GradeLevel"]
+                studentGrade = value["Grade_Level"]
                 # If the student was found at a valid school AND has
                 # an e-mail address from the school list, write to the file
-                # w.writerow([schoolId, value['Last_Name'], value['First_Name'], studentPassword,
-                #            value['Email'], key, value['Email'], studentGrade])
-                w.writerow([schoolId, value['Last_Name'], value['First_Name'], studentPassword,
-                            currentStudent['EmailAddress'], key, currentStudent['EmailAddress'], studentGrade])
+                w.writerow([schoolId, value['Last_Name'], value['First_Name'], value['Email'], 
+                key, value['Email'], studentGrade])
 f.close()
 
 # Write the sections.csv file
@@ -271,7 +249,6 @@ with open('enrollments.csv', 'w', newline='') as f:
     for key, value in sectionList.items():
         currentStudent = studentList.get(value['STUDENTS.STUDENT_NUMBER'])
         if currentStudent is not None:
-            # print(currentStudent['SchoolID'])
             w.writerow([currentStudent['SchoolID'], value['CC.SECTIONID'], value['STUDENTS.STUDENT_NUMBER']])
 f.close()
 
@@ -292,4 +269,4 @@ for readyfile in uploadFiles:
         mkdir(archiveDir)
     archFile = archiveDir+archiveName
     shutil.move(archiveName, archiveDir)
-
+    
