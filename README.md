@@ -1,14 +1,11 @@
 # Clever Automation Script
-Automation script to prepare and upload files to Clever.
+Python (v3.7.4) Automation script to prepare and upload files to Clever.
 
-When deploying this script, you will need to create the following folders:
-* imports/
-* uploads/
-
-Be sure to install dependencies that will be needed as well:
-* paramiko
-* chardet
-* configparser
+## Installation
+Install dependencies by running:
+```sh
+pip install -r requirements.txt
+```
 
 ## Import Files
 There are 3 required files to run this script:

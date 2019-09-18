@@ -26,6 +26,11 @@ import json
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+# If the script directories do not exist, create them with the user 
+# authorized to run this script.
+if not path.exists("imports"): mkdir("imports")
+if not path.exists("uploads"): mkdir("uploads")
+
 # Set the current date to open and process files from PowerSchool
 runDate = datetime.now().strftime('%Y-%m-%d')
 # Set yesterday's date to archive existing files (if any exist)
