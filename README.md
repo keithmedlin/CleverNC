@@ -2,7 +2,7 @@
 Python (v3.7.4) Automation script to prepare and upload files to Clever.
 
 ## Installation
-Install dependencies by running:
+Install dependencies by running the following command from your installation directory:
 ```sh
 pip install -r requirements.txt
 ```
