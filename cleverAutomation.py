@@ -92,6 +92,21 @@ def get_encoding(sourcefile):
     encoded_as = source_encoding['encoding']
     return encoded_as
 
+
+# Check the current record for a student ID matching one of the student IDs
+# that opted out of even being passed along to Clever.
+def allow_student(student):
+    found = False
+    for key, value in opt_out.items():
+        current_student = int(student)
+        optout = int(value[0])
+        if (current_student == optout):
+            found = True
+    if (found is True):
+        return True
+    else:
+        return False
+
 # Set our expected files for the day:
 importFiles = {
     "teachersFile": [config['teachersfile']['host'], int(config['teachersfile']['port']), config['teachersfile']['remote_dir'], 
@@ -127,6 +142,10 @@ with open("schooladmins.json", "r") as admins_file:
 for key, value in importFiles.items():
     getfile(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
 
+# Opt Out Dictionary - This will remove students who should not even be passed
+# along to Clever by PowerSchool ID. It is found in the opt-out.json file.
+with open("opt-out.json", "r") as optout_file:
+    opt_out = json.load(optout_file)
 
 # Create the admins.csv file
 with open('admins.csv', 'w', newline='') as f:
@@ -171,7 +190,8 @@ for row in readStudent:
     if key in studentList:
         # duplicate row handling logic here if we need it later...
         pass
-    studentList[key] = row
+    if (allow_student(key)==False):
+        studentList[key] = row
 
 # Write the teachers.csv file
 with open('teachers.csv', 'w', newline='') as f:

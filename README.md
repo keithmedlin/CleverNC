@@ -65,3 +65,5 @@ This file contains the dictionary where you will set up your schools and school 
 ### schooladmins-sample.json
 This file contains the dictionary to set up clever admins in the admins file that gets uploaded. You can give the dictionary keys any name that you can keep track of, but we landed on school abbreviations and numbers. The columns, in order are "School_id", "Admin_email", "Staff_id", "First_name", and "Last_name."
 
+### opt-out-sample.json
+This file contains students by PowerSchool ID # that should not even be passed to Clever.  You will need to rename this to opt-out.json once you've configured the file and ensure it's in the same directory as the clever-automation.py script.
